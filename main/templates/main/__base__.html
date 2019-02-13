@@ -10,19 +10,21 @@
   <body>
     <header class="{% block class %}header--main-page{% endblock class %}">
       <nav class="container container--70">
-          <ul class="nav--actions">
-          {% if user.is_authenticated %}
+        {% if user.is_authenticated %}
+        <ul class="nav--actions">
           <li class="logged-user">
-            Witaj Agata
+            Witaj {{ user.username }}
             <ul class="dropdown">
               <li><a href="#">Profil</a></li>
               <li><a href="#">Ustawienia</a></li>
               <li><a href="#">Moje zbiórki</a></li>
-              <li><a href="#">Wyloguj</a></li>
+              <li><a href="{% url 'logout' %}">Wyloguj</a></li>
             </ul>
           </li>
+        </ul>
           {% else %}
-            <li><a href="" class="btn btn--small btn--without-border">Zaloguj</a></li>
+        <ul class="nav--actions">
+            <li><a href="{% url 'login-page' %}" class="btn btn--small btn--without-border">Zaloguj</a></li>
             <li><a href="#" class="btn btn--small btn--highlighted">Załóż konto</a></li>
         </ul>
           {% endif %}

@@ -150,7 +150,7 @@ EMAIL_USE_TLS = True    # For Gmail
 
 LOGIN_REDIRECT_URL = 'main-page'
 
-LOGOUT_REDIRECT_URL = 'main-page'
+LOGIN_URL = 'login-page'
 
 # import from local_settings
 
