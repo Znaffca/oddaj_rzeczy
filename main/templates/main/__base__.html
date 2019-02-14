@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>{% block title %}{% endblock title %} | Oddaj rzeczy</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/mystyle.css' %}" />
   <body>
     <header class="{% block class %}header--main-page{% endblock class %}">
       <nav class="container container--70">
@@ -15,7 +16,7 @@
           <li class="logged-user">
             Witaj {{ user.username }}
             <ul class="dropdown">
-              <li><a href="#">Profil</a></li>
+              <li><a href="{% url 'account-details' %}">Profil</a></li>
               <li><a href="#">Ustawienia</a></li>
               <li><a href="#">Moje zbiórki</a></li>
               <li><a href="{% url 'logout' %}">Wyloguj</a></li>

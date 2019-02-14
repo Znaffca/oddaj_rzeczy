@@ -1,0 +1,16 @@
+/* line 2, scss/modules/_header.scss */
+header.header--profile-page {
+  /*background-image: url(../images/header_logged_img.jpg);*/
+  background-position: bottom left -30vh;
+  background-repeat: no-repeat;
+  background-size: 70vw;
+  height: 100vh;
+}
+
+@media (min-width: 990px) and (max-width: 1230px) {
+  /* line 2, scss/modules/_header.scss */
+  header.header--profile-page {
+    background-position: bottom left -55vh;
+    background-size: 90vw;
+  }
+}
