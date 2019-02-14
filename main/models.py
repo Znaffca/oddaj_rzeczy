@@ -1,3 +1,4 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.conf import settings
 
@@ -48,15 +49,22 @@ class UserProfile(models.Model):
         return f'{self.user.username}'
 
 
+# town class
+
+class Towns(models.Model):
+    name = models.CharField(max_length=64, verbose_name="Nazwa")
+    province = models.IntegerField(choices=PROVINCE_CHOICES, verbose_name="Województwo")
+
 # organization class
 
-class Organization(models.Model):
+
+class Institution(models.Model):
     name = models.CharField(max_length=128, verbose_name="Nazwa")
     type = models.IntegerField(choices=ORG_TYPE, verbose_name="Rodzaj")
     mission = models.CharField(max_length=255, verbose_name="Misja")
-    location = models.IntegerField(choices=PROVINCE_CHOICES, verbose_name="Województwo")
-    town = models.CharField(max_length=64, verbose_name="Miejscowość")
+    town = models.ForeignKey(Towns, on_delete=models.CASCADE, related_name="location")
     help = models.IntegerField(choices=HELP_CHOICE, verbose_name="Komu pomaga")
+    date_added = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.type} {self.name}'
@@ -65,7 +73,19 @@ class Organization(models.Model):
 # help Package
 
 class HelpPackage(models.Model):
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name="organization_name")
+    usable_clothes = models.BooleanField(null=True)
+    useless_clothes = models.BooleanField(null=True)
+    toys = models.BooleanField(null=True)
+    books = models.BooleanField(null=True)
+    others = models.BooleanField(null=True)
+    bags = models.IntegerField(default=1)
+    institution = models.ForeignKey(Institution, on_delete=models.CASCADE, related_name="organization_name", null=True)
+    street = models.CharField(max_length=64, null=True)
+    city = models.CharField(max_length=64, null=True)
+    post_code = models.CharField(max_length=6, null=True)
+    phone_num = models.CharField(max_length=16, null=True)
+    date = models.DateTimeField(null=True)
+    comments = models.TextField(null=True)
 
     def __str__(self):
-        return f'{self.organization.name}'
+        return f'{self.institution.name}'
