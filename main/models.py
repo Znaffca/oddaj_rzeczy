@@ -1,6 +1,8 @@
+
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.conf import settings
+
 
 PROVINCE_CHOICES = (
     (1, 'dolnośląskie'),
@@ -55,6 +57,9 @@ class Towns(models.Model):
     name = models.CharField(max_length=64, verbose_name="Nazwa")
     province = models.IntegerField(choices=PROVINCE_CHOICES, verbose_name="Województwo")
 
+    def __str__(self):
+        return f'{self.name}'
+
 # organization class
 
 
@@ -62,9 +67,9 @@ class Institution(models.Model):
     name = models.CharField(max_length=128, verbose_name="Nazwa")
     type = models.IntegerField(choices=ORG_TYPE, verbose_name="Rodzaj")
     mission = models.CharField(max_length=255, verbose_name="Misja")
-    town = models.ForeignKey(Towns, on_delete=models.CASCADE, related_name="location")
+    town = models.ForeignKey(Towns, on_delete=models.CASCADE, related_name="location", verbose_name="Miasto")
     help = models.IntegerField(choices=HELP_CHOICE, verbose_name="Komu pomaga")
-    date_added = models.DateField(auto_now_add=True)
+    date_added = models.DateField(auto_now_add=True, verbose_name="Data dodania")
 
     def __str__(self):
         return f'{self.type} {self.name}'
@@ -73,19 +78,22 @@ class Institution(models.Model):
 # help Package
 
 class HelpPackage(models.Model):
-    usable_clothes = models.BooleanField(null=True)
-    useless_clothes = models.BooleanField(null=True)
-    toys = models.BooleanField(null=True)
-    books = models.BooleanField(null=True)
-    others = models.BooleanField(null=True)
-    bags = models.IntegerField(default=1)
-    institution = models.ForeignKey(Institution, on_delete=models.CASCADE, related_name="organization_name", null=True)
-    street = models.CharField(max_length=64, null=True)
-    city = models.CharField(max_length=64, null=True)
-    post_code = models.CharField(max_length=6, null=True)
-    phone_num = models.CharField(max_length=16, null=True)
-    date = models.DateTimeField(null=True)
-    comments = models.TextField(null=True)
+    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user",
+    #                          verbose_name="Autor", default=request.user)
+    usable_clothes = models.BooleanField(null=True, verbose_name="Ubrania do ponownego użycia")
+    useless_clothes = models.BooleanField(null=True, verbose_name="Ubrania do wyrzucenia")
+    toys = models.BooleanField(null=True, verbose_name="Zabawki")
+    books = models.BooleanField(null=True, verbose_name="Książki")
+    others = models.BooleanField(null=True, verbose_name="Inne")
+    bags = models.IntegerField(default=1, verbose_name="Liczba 60l worków")
+    institution = models.ForeignKey(Institution, on_delete=models.CASCADE, related_name="organization_name", null=True,
+                                    verbose_name="Organizacja")
+    street = models.CharField(max_length=64, null=True, verbose_name="Ulica")
+    city = models.CharField(max_length=64, null=True, verbose_name="Miasto")
+    post_code = models.CharField(max_length=6, null=True, verbose_name="Kod Pocztowy")
+    phone_num = models.CharField(max_length=16, null=True, verbose_name="Numer telefonu")
+    date = models.DateTimeField(null=True, verbose_name="Data i godzina odbioru")
+    comments = models.TextField(null=True, verbose_name="Uwagi dla kuriera")
 
     def __str__(self):
         return f'{self.institution.name}'
