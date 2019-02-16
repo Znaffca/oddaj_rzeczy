@@ -18,15 +18,17 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-from main.views import IndexView, FormView, LoginPage, AccountDetails
+from main.views import IndexView, FormView, LoginPage, AccountDetails, RegisterView, UserEdit
 
 urlpatterns = [
     path('admin/', admin.site.urls, name="admin-site"),
     path('', IndexView.as_view(), name="main-page"),
     path('form/', FormView.as_view(), name="form"),
+    path('register/', RegisterView.as_view(), name="register"),
     path('login/', LoginPage.as_view(), name="login-page"),
     path('logout/', auth_views.LogoutView.as_view(), name="logout"),
-    path('account/details/', AccountDetails.as_view(), name="account-details")
+    path('account/details/', AccountDetails.as_view(), name="account-details"),
+    path('account/edit/', UserEdit.as_view(), name="profile-edit")
 ]
 
 if settings.DEBUG:

@@ -46,9 +46,13 @@ class UserProfile(models.Model):
     date_of_birth = models.DateField(blank=True, null=True, verbose_name="Data urodzenia")
     description = models.CharField(max_length=255, verbose_name="Opis")
     photo = models.ImageField(upload_to='users/%Y/%m/%d', blank=True, null=True, verbose_name="Zdjęcie profilowe")
+    phone_num = models.CharField(max_length=20, verbose_name="Telefon")
 
     def __str__(self):
         return f'{self.user.username}'
+
+    class Meta:
+        verbose_name_plural = "Profile użytkowników"
 
 
 # town class
@@ -59,6 +63,9 @@ class Towns(models.Model):
 
     def __str__(self):
         return f'{self.name}'
+
+    class Meta:
+        verbose_name_plural = "Miasta"
 
 # organization class
 
@@ -73,6 +80,9 @@ class Institution(models.Model):
 
     def __str__(self):
         return f'{self.type} {self.name}'
+
+    class Meta:
+        verbose_name_plural = "Zaufane instytucje"
 
 
 # help Package
@@ -97,3 +107,6 @@ class HelpPackage(models.Model):
 
     def __str__(self):
         return f'{self.institution.name}'
+
+    class Meta:
+        verbose_name_plural = "Utworzone dary"

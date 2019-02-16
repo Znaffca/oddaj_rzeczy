@@ -6,6 +6,7 @@ from main.models import UserProfile, Towns, Institution, HelpPackage
 
 admin.site.site_header = "Oddaj rzeczy - panel administracyjny aplikacji"
 admin.site.site_title = "Oddaj rzeczy"
+admin.site.index_title = "Strona główna"
 
 
 @admin.register(UserProfile)

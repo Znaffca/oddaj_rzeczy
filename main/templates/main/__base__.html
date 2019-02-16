@@ -8,6 +8,7 @@
     <title>{% block title %}{% endblock title %} | Oddaj rzeczy</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <link rel="stylesheet" href="{% static 'css/mystyle.css' %}" />
+
   <body>
     <header class="{% block class %}header--main-page{% endblock class %}">
       <nav class="container container--70">
@@ -26,11 +27,11 @@
           {% else %}
         <ul class="nav--actions">
             <li><a href="{% url 'login-page' %}" class="btn btn--small btn--without-border">Zaloguj</a></li>
-            <li><a href="#" class="btn btn--small btn--highlighted">Załóż konto</a></li>
+            <li><a href="{% url 'register' %}" class="btn btn--small btn--highlighted">Załóż konto</a></li>
         </ul>
           {% endif %}
         <ul>
-          <li><a href="#" class="btn btn--without-border active">Start</a></li>
+          <li><a href="{% url 'main-page' %}" class="btn btn--without-border active">Start</a></li>
           <li><a href="#" class="btn btn--without-border">O co chodzi?</a></li>
           <li><a href="#" class="btn btn--without-border">O nas</a></li>
           <li><a href="#" class="btn btn--without-border">Fundacje i organizacje</a></li>

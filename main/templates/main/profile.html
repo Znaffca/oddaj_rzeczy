@@ -1,10 +1,92 @@
 {% extends 'main/__base__.html' %}
+{% load static %}
 {% block title %}Profil użytkownika{% endblock title %}
 {% block class %}header--logged-page{% endblock class %}
 {% block header %}
+    <div class="slogan container container--90">
+        <div class="slogan--item">
+          <h1>
+            Witaj {{ user.username }}!
+          </h1>
 
+          <ul class="slogan--buttons">
+            <li class="buttons"><a href="#profile-link" class="btn btn--large">Twój profil</a></li>
+            <li><a href="{% url 'profile-edit' %}" class="btn btn--large">Edytuj profil</a></li>
+          </ul>
+        </div>
+      </div>
 {% endblock header %}
 
 {% block content %}
+    <section class="stats">
+      <div class="container container--85">
+        <div class="stats--item">
+          <em>10</em>
+          <h3>Oddanych worków</h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius est beatae, quod accusamus illum tempora!</p>
+        </div>
+
+        <div class="stats--item">
+          <em>5</em>
+          <h3>Wspartych organizacji</h3>
+          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laboriosam magnam, sint nihil cupiditate quas quam.</p>
+        </div>
+
+        <div class="stats--item">
+          <em>7</em>
+          <h3>Zorganizowanych zbiórek</h3>
+          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quos dolores commodi error. Natus, officiis vitae?</p>
+        </div>
+      </div>
+    </section>
+
+    <div id="profile-link" class="div--main-page">
+        <div class="div--profile">
+            <h2 style="padding-top:20px;">Szczegóły profilu</h2>
+            <nav class="animated">
+	            <a href="{% url 'profile-edit' %}">PROFIL</a>
+	            <a href="#">MOJE ZBIÓRKI</a>
+	            <a href="#">USTAWIENIA</a>
+	            <a href="#">ZMIANA HASŁA</a>
+	        <div class="animation start-home"></div>
+            </nav>
+            <div class="div--bg-profile">
+                <div class="left">
+                    {% if profile.photo %}
+                    <img src="{{ profile.photo.url }}" width="100%" height="auto" alt="Zdjęcie profilowe">
+                    {% else %}
+                    <img src="{% static 'images/default-user-profile.png' %}" width="100%" height="auto" alt="Profil">
+                    {% endif %}
+                        <h1 style="font-size:4em;text-align:center;">{{ user.username }}</h1>
+                    <p style="text-align:center;"><a href="{% url 'profile-edit' %}" class="btn btn--highlighted">Edytuj</a></p>
+
+                </div>
+                <div class="right">
+                    <h1 style="font-size:4em;text-align:center;">Szczegóły użytkownika</h1>
+                    <div class="middle">
+                        <table>
+                            <tr>
+                                <td class="profile--table">Imię i nazwisko</td><td class="profile--table-val">{{ user.first_name }} {{ user.last_name }}</td>
+                            </tr>
+                            <tr>
+                                <td class="profile--table">E-mail</td><td class="profile--table-val">{{ user.email }}</td>
+                            </tr>
+                            <tr>
+                                <td class="profile--table">Data urodzenia</td><td class="profile--table-val">{{ profile.date_of_birth }}</td>
+                            </tr>
+                            <tr>
+                                <td class="profile--table">Numer telefonu</td><td class="profile--table-val">{{ profile.phone_num }}</td>
+                            </tr>
+                            <tr style="height:100px;">
+                                <td class="profile--table">Opis</td><td class="profile--table-val">{{ profile.description }}</td>
+                            </tr>
+                        </table>
+                        <h2 style="text-align:center;font-style:italic; font-weight: bold;">Ostatnie zbiórki</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
 {% endblock content %}
