@@ -86,5 +86,5 @@ class UserEdit(LoginRequiredMixin, View):
         if user_form.is_valid() and user_profile_form.is_valid():
             user_form.save()
             user_profile_form.save()
-            return redirect('account-details')
+            return HttpResponseRedirect('/account/details/')
         return render(request, 'main/profile_edit.html', {"user_form": user_form, "user_profile": user_profile_form})

@@ -8,6 +8,9 @@
       <h2>Edytuj profil</h2>
         <div class="row">
             <div class="col-md-12">
+                {% if text %}
+                    <p>{{ text }}</p>
+                {% endif %}
                 <form action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {% include 'main/form_errors.html' %}
