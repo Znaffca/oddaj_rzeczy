@@ -1,0 +1,47 @@
+{% extends 'main/__base__.html' %}
+  {% block title %}Utwórz paczkę z darami{% endblock title %}
+{% block class %}{% endblock class %}
+{% load widget_tweaks %}
+  {% block header %}
+  {% endblock header %}
+  {% block content %}
+    <section class="login-page">
+      <h2>Zaloguj się</h2>
+      <form action="" method="post">
+        {% csrf_token %}
+
+         {% if form.errors %}
+            <div class="form-errors">
+            {% for field in form %}
+
+              {% for error in field.errors %}
+                     <p>{{ error }}</p>
+              {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            {% endif %}
+              </div>
+          {% endif %}
+
+        <div class="form-group">
+          {% render_field form.username type="text" name="username" id="username" placeholder="Użytkownik" %}
+        </div>
+        <div class="form-group">
+          {% render_field form.password type="password" name="password" id="password" placeholder="Hasło" %}
+          <a href="#" class="btn btn--small btn--without-border reset-password">Przypomnij hasło</a>
+        </div>
+          <input type="hidden" name="next" value="{{ next }}" />
+        <div class="form-group form-group--buttons">
+          <a href="#" class="btn btn--without-border">Załóż konto</a>      
+          <button class="btn" type="submit">Zaloguj się</button> 
+        </div>
+      </form>
+    </section>
+  {% endblock content %}

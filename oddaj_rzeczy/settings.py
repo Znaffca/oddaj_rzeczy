@@ -148,9 +148,9 @@ EMAIL_USE_TLS = True    # For Gmail
 # login function
 # redirect after login/logout
 
-LOGIN_REDIRECT_URL = 'main-page'
+LOGIN_REDIRECT_URL = '/'
 
-LOGOUT_REDIRECT_URL = 'main-page'
+LOGIN_URL = '/login/'
 
 # import from local_settings
 

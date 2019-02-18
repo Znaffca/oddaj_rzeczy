@@ -15,11 +15,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
-from main.views import IndexView, FormView
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
+from main.views import IndexView, FormView, LoginPage, AccountDetails, RegisterView, UserEdit
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name="admin-site"),
     path('', IndexView.as_view(), name="main-page"),
     path('form/', FormView.as_view(), name="form"),
+    path('register/', RegisterView.as_view(), name="register"),
+    path('login/', LoginPage.as_view(), name="login-page"),
+    path('logout/', auth_views.LogoutView.as_view(), name="logout"),
+    path('account/details/', AccountDetails.as_view(), name="account-details"),
+    path('account/edit/', UserEdit.as_view(), name="profile-edit"),
+    path('password_change/', auth_views.PasswordChangeView.as_view(), name="change-password"),
+    path('password_change/done', auth_views.PasswordChangeDoneView.as_view(), name="password_change_done"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,42 @@
+{% extends 'main/__base__.html' %}
+{% block title %}Edytuj profil{% endblock title %}
+{% block class %}{%endblock class%}
+{% block header %}{% endblock header %}
+{% block content %}
+{% load widget_tweaks %}
+    <section class="login-page">
+      <h2>Edytuj profil</h2>
+        <div class="row">
+            <div class="col-md-12">
+                {% if text %}
+                    <p>{{ text }}</p>
+                {% endif %}
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% include 'main/form_errors.html' %}
+                <div class="form-group">
+                    <table>
+                        {% for field in user_form.visible_fields %}
+                            <tr>
+                                <td style="font-size:20px;">{{ field.label_tag }}</td>
+                                <td>{% render_field field style="max-width:400px;padding:10px;" %}</td>
+                            </tr>
+                        {% endfor %}
+                        {% for field in user_profile.visible_fields %}
+                            <tr>
+                                <td style="font-size:20px;">{{ field.label_tag }}</td>
+                                <td>{% render_field field style="max-width:400px;padding:10px;" %}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div style="margin-bottom: 10px;margin-left:auto;margin-right:auto;">
+                    <button class="btn btn--without-border-edit" type="button" style="margin-right: 20px;"><a href="{% url 'change-password' %}">Zmień hasło</a></button>
+                    <button class="btn" type="submit">Zapisz zmiany</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+{% endblock content %}

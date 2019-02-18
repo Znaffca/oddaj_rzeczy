@@ -1,0 +1,19 @@
+{% extends "main/__base__.html" %}
+{% block title %}Wylogowano{% endblock %}
+{% block header %}
+<div class="slogan container container--90">
+        <div class="slogan--item">
+            <h1>
+                Wylogowałeś się pomyślnie<br />
+                Wybierz co chcesz zrobić:
+            </h1>
+
+            <ul class="slogan--buttons">
+                <li><a href="{% url 'login-page' %}" class="btn btn--large">Zaloguj się ponownie</a></li>
+                <li><a href="{% url 'main-page' %}" class="btn btn--large">Wróć na stronę główną</a></li>
+            </ul>
+        </div>
+    </div>
+{% endblock header %}}
+{% block content %}
+{% endblock %}
