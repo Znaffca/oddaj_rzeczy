@@ -47,7 +47,7 @@
 	            <a href="{% url 'profile-edit' %}">PROFIL</a>
 	            <a href="#">MOJE ZBIÓRKI</a>
 	            <a href="#">USTAWIENIA</a>
-	            <a href="#">ZMIANA HASŁA</a>
+	            <a href="{% url 'change-password' %}">ZMIANA HASŁA</a>
 	        <div class="animation start-home"></div>
             </nav>
             <div class="div--bg-profile">
@@ -86,7 +86,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
 {% endblock content %}

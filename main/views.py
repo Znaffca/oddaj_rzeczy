@@ -73,7 +73,7 @@ class AccountDetails(LoginRequiredMixin, View):
 
 # Account Edit View
 
-class UserEdit(View):
+class UserEdit(LoginRequiredMixin, View):
 
     def get(self, request):
         user_form = UserEditForm(instance=request.user)
@@ -86,4 +86,5 @@ class UserEdit(View):
         if user_form.is_valid() and user_profile_form.is_valid():
             user_form.save()
             user_profile_form.save()
-            return render(request, 'main/profile_edit.html', {"user_form": user_form, "user_profile": user_profile_form})
+            return redirect('account-details')
+        return render(request, 'main/profile_edit.html', {"user_form": user_form, "user_profile": user_profile_form})

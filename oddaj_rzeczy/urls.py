@@ -28,7 +28,9 @@ urlpatterns = [
     path('login/', LoginPage.as_view(), name="login-page"),
     path('logout/', auth_views.LogoutView.as_view(), name="logout"),
     path('account/details/', AccountDetails.as_view(), name="account-details"),
-    path('account/edit/', UserEdit.as_view(), name="profile-edit")
+    path('account/edit/', UserEdit.as_view(), name="profile-edit"),
+    path('password_change/', auth_views.PasswordChangeView.as_view(), name="change-password"),
+    path('password_change/done', auth_views.PasswordChangeDoneView.as_view(), name="password_change_done"),
 ]
 
 if settings.DEBUG:
