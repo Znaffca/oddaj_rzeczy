@@ -29,15 +29,6 @@ ORG_TYPE = (
     (3, "Lokalna zbiórka")
 )
 
-HELP_CHOICE = (
-    (1, "dzieciom"),
-    (2, "samotnym matkom"),
-    (3, "bezdomnym"),
-    (4, "niepełnosprawnym"),
-    (5, "osobom starszym"),
-    (6, "bezrobotnym"),
-)
-
 
 # help type class
 
