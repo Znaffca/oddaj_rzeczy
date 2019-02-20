@@ -1,4 +1,4 @@
-
+from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.conf import settings
@@ -91,8 +91,6 @@ class Institution(models.Model):
 # help Package
 
 class HelpPackage(models.Model):
-    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user",
-    #                          verbose_name="Autor", default=request.user)
     usable_clothes = models.BooleanField(default=False, verbose_name="Ubrania do ponownego użycia")
     useless_clothes = models.BooleanField(default=False, verbose_name="Ubrania do wyrzucenia")
     toys = models.BooleanField(default=False, verbose_name="Zabawki")
@@ -107,6 +105,8 @@ class HelpPackage(models.Model):
     phone_num = models.CharField(max_length=16, null=True, verbose_name="Numer telefonu")
     date = models.DateTimeField(null=True, verbose_name="Data i godzina odbioru")
     comments = models.TextField(null=True, verbose_name="Uwagi dla kuriera")
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user",
+                             verbose_name="Autor")
 
     def __str__(self):
         pass
