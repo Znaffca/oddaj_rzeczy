@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import View
 from main.forms import LoginForm, AddUserForm, UserEditForm, ProfileForm, DonateFirstForm, DonateSecondForm
-from main.models import UserProfile
+from main.models import UserProfile, HelpType, Towns
 
 
 # landing page
@@ -140,7 +140,6 @@ class DonateSecond(View):
 class DonateThird(View):
 
     def get(self, request):
-        return render(request, 'main/form_3.html')
-
-    def post(self, request):
-        pass
+        help = HelpType.objects.all()
+        towns = Towns.objects.all()
+        return render(request, 'main/form_3.html', {'help': help, 'towns': towns})

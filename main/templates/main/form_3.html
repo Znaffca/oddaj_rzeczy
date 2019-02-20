@@ -16,17 +16,19 @@
         <div class="form--steps-counter">Krok <span>3</span>/5</div>
 
           <!-- STEP 3 -->
-          <form>
+          <form method="get" action="">
             <div data-step="3" class="active">
             <h3>Lokalizacja:</h3>
 
             <div class="form-group form-group--dropdown">
               <select name="localization">
                 <option value="0">- wybierz -</option>
-                <option value="warsaw">Warszawa</option>
-                <option value="wroclaw">Wrocław</option>
-                <option value="poznan">Poznań</option>
-                <option value="gdansk">Gdańsk</option>
+                {% for town in towns %}
+                <option value="{{ town.id }}">{{ town.name }}</option>
+                <!--<option value="wroclaw">Wrocław</option>-->
+                <!--<option value="poznan">Poznań</option>-->
+                <!--<option value="gdansk">Gdańsk</option>-->
+                {% endfor %}
               </select>
             </div>
 
