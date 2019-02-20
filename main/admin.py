@@ -1,12 +1,22 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from main.models import UserProfile, Towns, Institution, HelpPackage
-
+from main.models import UserProfile, Towns, Institution, HelpPackage, HelpType
 
 admin.site.site_header = "Oddaj rzeczy - panel administracyjny aplikacji"
 admin.site.site_title = "Oddaj rzeczy"
 admin.site.index_title = "Strona główna"
+
+
+@admin.register(HelpType)
+class HelpTypeAdmin(admin.ModelAdmin):
+    list_display = 'type',
+    fieldsets = ("Komu pomaga", {'fields': ['type']}),
+
+
+class HelpTypeInline(admin.TabularInline):
+    model = Institution.help.through
+    extra = 1
 
 
 @admin.register(UserProfile)
@@ -32,10 +42,11 @@ class TownsAdmin(admin.ModelAdmin):
 
 @admin.register(Institution)
 class InstitutionAdmin(admin.ModelAdmin):
-    list_display = ['name', 'type', 'mission', 'town', 'help', 'date_added']
-    list_filter = ['type', 'help']
+    list_display = ['name', 'type', 'mission', 'town', 'date_added']
+    list_filter = ['type']
+    inlines = [HelpTypeInline]
     fieldsets = ('Instytucja', {
-        'fields': ('name', 'type', 'mission', 'town', 'help')
+        'fields': ('name', 'type', 'mission', 'help', 'town')
     }),
 
 

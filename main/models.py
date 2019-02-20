@@ -39,6 +39,18 @@ HELP_CHOICE = (
 )
 
 
+# help type class
+
+class HelpType(models.Model):
+    type = models.CharField(max_length=128)
+
+    def __str__(self):
+        return self.type
+
+    class Meta:
+        verbose_name_plural = "Typy pomocy"
+
+
 # extends User class
 
 class UserProfile(models.Model):
@@ -75,7 +87,7 @@ class Institution(models.Model):
     type = models.IntegerField(choices=ORG_TYPE, verbose_name="Rodzaj")
     mission = models.CharField(max_length=255, verbose_name="Misja")
     town = models.ForeignKey(Towns, on_delete=models.CASCADE, related_name="location", verbose_name="Miasto")
-    help = models.IntegerField(choices=HELP_CHOICE, verbose_name="Komu pomaga")
+    help = models.ManyToManyField(HelpType, verbose_name="Komu pomaga", related_name='helptype')
     date_added = models.DateField(auto_now_add=True, verbose_name="Data dodania")
 
     def __str__(self):

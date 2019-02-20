@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import View
-from main.forms import LoginForm, AddUserForm, UserEditForm, ProfileForm, DonateFirstForm
+from main.forms import LoginForm, AddUserForm, UserEditForm, ProfileForm, DonateFirstForm, DonateSecondForm
 from main.models import UserProfile
 
 
@@ -93,6 +93,8 @@ class UserEdit(LoginRequiredMixin, View):
 
 # Donates Views:::
 
+# FIRST
+
 class DonateFirst(View):
 
     def get(self, request):
@@ -109,19 +111,36 @@ class DonateFirst(View):
             request.session['form'] = {
                 'usable_clothes': s['usable_clothes'],
                 'useless_clothes': s['useless_clothes'],
-                'toys': s['toys'],
                 'books': s['books'],
+                'toys': s['toys'],
                 'others': s['others'],
             }
             return redirect('second-donate')
         return render(request, 'main/form_1.html', {"form": form})
 
 
+# SECOND
+
 class DonateSecond(View):
 
     def get(self, request):
-        return render(request, 'main/form_2.html')
+        form = DonateSecondForm()
+        return render(request, 'main/form_2.html', {'form': form})
+
+    def post(self, request):
+        form = DonateSecondForm(data=request.POST)
+        if form.is_valid():
+            s = form.cleaned_data
+            request.session['bags'] = {'bags': s['bags']}
+            return redirect('third-donate')
+
+
+# THIRD
+
+class DonateThird(View):
+
+    def get(self, request):
+        return render(request, 'main/form_3.html')
 
     def post(self, request):
         pass
-
