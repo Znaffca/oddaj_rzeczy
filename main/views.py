@@ -4,9 +4,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import View
 from main.forms import LoginForm, AddUserForm, UserEditForm, ProfileForm, DonateFirstForm
+from main.models import UserProfile
+
 
 # landing page
-from main.models import UserProfile, HelpPackage
 
 
 class IndexView(View):
