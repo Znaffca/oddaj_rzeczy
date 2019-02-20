@@ -1,0 +1,38 @@
+{% extends 'main/__base__.html' %}
+  {% block title %}Utwórz paczkę z darami{% endblock title %}
+{% block class %}header--form-page{% endblock class %}
+    {% block header %}
+
+        {% include 'main/form_header.html' %}
+
+    {% endblock header %}
+    {% load widget_tweaks %}
+{% block content %}
+    <section class="form--steps">
+
+        {% include 'main/form_instructions.html' %}
+
+      <div class="form--steps-container">
+        <form action="" method="post">
+            {% csrf_token %}
+          <!-- STEP 1: class .active is switching steps -->
+          <div data-step="2" class="active">
+            <h3>Podaj liczbę 60l worków, w które spakowałeś/aś rzeczy:</h3>
+
+            <div class="form-group form-group--inline">
+              <label>
+                Liczba 60l worków:
+                <input type="number" name="bags" step="1" min="1" />
+              </label>
+            </div>
+
+            <div class="form-group form-group--buttons">
+                <a href="{% url 'first-donate' %}" class="btn">Wstecz</a>
+                <button type="button" class="btn next-step">Dalej</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+{% endblock content %}
+

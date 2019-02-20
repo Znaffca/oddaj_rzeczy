@@ -90,11 +90,11 @@ class Institution(models.Model):
 class HelpPackage(models.Model):
     # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user",
     #                          verbose_name="Autor", default=request.user)
-    usable_clothes = models.BooleanField(null=True, verbose_name="Ubrania do ponownego użycia")
-    useless_clothes = models.BooleanField(null=True, verbose_name="Ubrania do wyrzucenia")
-    toys = models.BooleanField(null=True, verbose_name="Zabawki")
-    books = models.BooleanField(null=True, verbose_name="Książki")
-    others = models.BooleanField(null=True, verbose_name="Inne")
+    usable_clothes = models.BooleanField(default=False, verbose_name="Ubrania do ponownego użycia")
+    useless_clothes = models.BooleanField(default=False, verbose_name="Ubrania do wyrzucenia")
+    toys = models.BooleanField(default=False, verbose_name="Zabawki")
+    books = models.BooleanField(default=False, verbose_name="Książki")
+    others = models.BooleanField(default=False, verbose_name="Inne")
     bags = models.IntegerField(default=1, verbose_name="Liczba 60l worków")
     institution = models.ForeignKey(Institution, on_delete=models.CASCADE, related_name="organization_name", null=True,
                                     verbose_name="Organizacja")
@@ -106,7 +106,7 @@ class HelpPackage(models.Model):
     comments = models.TextField(null=True, verbose_name="Uwagi dla kuriera")
 
     def __str__(self):
-        return f'{self.institution.name}'
+        pass
 
     class Meta:
         verbose_name_plural = "Utworzone dary"

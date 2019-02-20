@@ -3,10 +3,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import View
-from main.forms import LoginForm, AddUserForm, UserEditForm, ProfileForm
+from main.forms import LoginForm, AddUserForm, UserEditForm, ProfileForm, DonateFirstForm
 
 # landing page
-from main.models import UserProfile
+from main.models import UserProfile, HelpPackage
 
 
 class IndexView(View):
@@ -88,3 +88,39 @@ class UserEdit(LoginRequiredMixin, View):
             user_profile_form.save()
             return HttpResponseRedirect('/account/details/')
         return render(request, 'main/profile_edit.html', {"user_form": user_form, "user_profile": user_profile_form})
+
+
+# Donates Views:::
+
+class DonateFirst(View):
+
+    def get(self, request):
+        if 'form' in request.session:
+            form = DonateFirstForm(initial=request.session['form'])
+        else:
+            form = DonateFirstForm()
+        return render(request, 'main/form_1.html', {"form": form})
+
+    def post(self, request):
+        form = DonateFirstForm(data=request.POST)
+        if form.is_valid():
+            s = form.cleaned_data
+            request.session['form'] = {
+                'usable_clothes': s['usable_clothes'],
+                'useless_clothes': s['useless_clothes'],
+                'toys': s['toys'],
+                'books': s['books'],
+                'others': s['others'],
+            }
+            return redirect('second-donate')
+        return render(request, 'main/form_1.html', {"form": form})
+
+
+class DonateSecond(View):
+
+    def get(self, request):
+        return render(request, 'main/form_2.html')
+
+    def post(self, request):
+        pass
+

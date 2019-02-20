@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 # login form
-from main.models import UserProfile
+from main.models import UserProfile, HelpPackage
 
 
 class LoginForm(forms.Form):
@@ -59,5 +59,11 @@ class UserEditForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email')
+
+
+class DonateFirstForm(forms.ModelForm):
+    class Meta:
+        model = HelpPackage
+        fields = ('usable_clothes', 'useless_clothes', 'books', 'toys', 'others')
 
 
