@@ -60,22 +60,23 @@ class UserEditForm(forms.ModelForm):
         model = User
         fields = ('first_name', 'last_name', 'email')
 
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exclude(id=self.instance.pk):
+            raise forms.ValidationError(f"Użytkownik o adresie {email} już istnieje.")
+        return email
+
+
+# DONATE FORMS
+# First Donate
 
 class DonateFirstForm(forms.ModelForm):
     class Meta:
         model = HelpPackage
         fields = ('usable_clothes', 'useless_clothes', 'toys', 'books', 'others')
 
-    # def clean_books(self):
-    #     usable_clothes = self.cleaned_data['usable_clothes']
-    #     useless_clothes = self.cleaned_data['useless_clothes']
-    #     toys = self.cleaned_data['toys']
-    #     books = self.cleaned_data['books']
-    #     others = self.cleaned_data['others']
-    #     if not (usable_clothes or useless_clothes or books or toys or others):
-    #         raise forms.ValidationError("Musisz wybrać przynajmniej jedno pole")
-    #     return books
 
+# Second Donate
 
 class DonateSecondForm(forms.ModelForm):
     class Meta:

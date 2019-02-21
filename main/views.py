@@ -34,13 +34,17 @@ class LoginPage(View):
         form = LoginForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
+            next_step = request.POST.get('next')
             user = authenticate(request, username=cd['username'],
                                 password=cd['password'])
             if user is not None:
                 login(request, user)
                 if user.is_superuser:
                     return HttpResponseRedirect('/admin/')
-                return redirect('account-details')
+                else:
+                    if next_step != '':
+                        return HttpResponseRedirect(next_step)
+                    return HttpResponseRedirect('/account/details/')
         return render(request, 'registration/login.html', {'form': form})
 
 
