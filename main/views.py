@@ -1,11 +1,12 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core import serializers
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import View
 from main.forms import LoginForm, AddUserForm, UserEditForm, ProfileForm, DonateFirstForm, DonateSecondForm, \
     DonateThirdSearch
-from main.models import UserProfile
+from main.models import UserProfile, Towns
 
 
 # landing page
@@ -129,15 +130,19 @@ class DonateFirst(LoginRequiredMixin, View):
 class DonateSecond(LoginRequiredMixin, View):
 
     def get(self, request):
-        form = DonateSecondForm()
+        if 'bags' in request.session:
+            form = DonateSecondForm(initial={'bags': request.session['bags']})
+        else:
+            form = DonateSecondForm()
         return render(request, 'main/form_2.html', {'form': form})
 
     def post(self, request):
         form = DonateSecondForm(data=request.POST)
         if form.is_valid():
             s = form.cleaned_data
-            request.session['bags'] = {'bags': s['bags']}
+            request.session['bags'] = s['bags']
             return redirect('third-donate')
+        return render(request, 'main/form_2.html', {'form': form})
 
 
 # THIRD
@@ -146,7 +151,8 @@ class DonateThird(LoginRequiredMixin, View):
 
     def get(self, request):
         if 'search' in request.session:
-            city_form = DonateThirdSearch(initial=request.session['search'])
+            city_form = DonateThirdSearch(initial={'city': Towns.objects.get(pk=request.session['search']['city']),
+                                                   'institution': request.session['search']['institution']})
         else:
             city_form = DonateThirdSearch
         return render(request, 'main/form_3.html', {'city_form': city_form})
@@ -154,13 +160,15 @@ class DonateThird(LoginRequiredMixin, View):
     def post(self, request):
         city_form = DonateThirdSearch(request.POST)
         if city_form.is_valid():
-            # s = city_form.cleaned_data
-            # city = s['city']
-            # request.session['search'] = {
-            #     'city': city.id,
-            #     'help': s['help'],
-            #     'institution': s['institution']
-            # }
+            s = city_form.cleaned_data
+            city = s['city']
+            help_types = s['help']
+            # h_list = help_types.getlist()
+            request.session['search'] = {
+                'city': city.id,
+                # 'help': h_list,
+                'institution': s['institution']
+            }
             return redirect('fourth-donate')
         return render(request, 'main/form_3.html', {'city_form': city_form})
 

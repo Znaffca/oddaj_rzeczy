@@ -35,7 +35,7 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Towns)
 class TownsAdmin(admin.ModelAdmin):
-    list_display = ['name', 'province']
+    list_display = ['id', 'name', 'province']
     list_filter = 'province',
     fieldsets = ('Miasto', {'fields': ('name', 'province')}),
 
