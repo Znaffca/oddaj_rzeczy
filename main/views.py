@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from main.forms import LoginForm, AddUserForm, UserEditForm, ProfileForm, DonateFirstForm, DonateSecondForm, \
     DonateThirdSearch
-from main.models import UserProfile, Towns
+from main.models import UserProfile, Towns, HelpType, Institution
 
 
 # landing page
@@ -152,6 +152,7 @@ class DonateThird(LoginRequiredMixin, View):
     def get(self, request):
         if 'search' in request.session:
             city_form = DonateThirdSearch(initial={'city': Towns.objects.get(pk=request.session['search']['city']),
+                                                   'help': (HelpType.objects.get(pk=i) for i in request.session['search']['help']),
                                                    'institution': request.session['search']['institution']})
         else:
             city_form = DonateThirdSearch
@@ -162,11 +163,10 @@ class DonateThird(LoginRequiredMixin, View):
         if city_form.is_valid():
             s = city_form.cleaned_data
             city = s['city']
-            help_types = s['help']
-            # h_list = help_types.getlist()
+            help_list = [obj.id for obj in s['help']]
             request.session['search'] = {
                 'city': city.id,
-                # 'help': h_list,
+                'help': help_list,
                 'institution': s['institution']
             }
             return redirect('fourth-donate')
@@ -178,4 +178,26 @@ class DonateThird(LoginRequiredMixin, View):
 class DonateFourth(LoginRequiredMixin, View):
 
     def get(self, request):
-        return render(request, 'main/form_4.html')
+        city_id = request.session['search']['city']
+        # help_list = request.session['search']['help']
+        # help_types = (HelpType.objects.get(pk=i) for i in help_list)
+        search_by_city = Institution.objects.filter(town=Towns.objects.get(pk=city_id))
+        return render(request, 'main/form_4.html', {'city_institution': search_by_city})
+
+    def post(self, request):
+        i = request.POST.get('organization')
+        if i != '':
+            request.session['institution'] = i
+            return redirect('fifth-donate')
+        return redirect('fourth-donate')
+
+
+# FIFTH
+
+class DonateFifth(LoginRequiredMixin, View):
+
+    def get(self, request):
+        return render(request, 'main/form_5.html')
+
+    def post(self, request):
+        pass
