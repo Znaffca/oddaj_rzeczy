@@ -93,3 +93,17 @@ class DonateThirdSearch(forms.Form):
                                           required=True)
     institution = forms.CharField(widget=forms.Textarea(attrs={"rows": '4'}), required=False)
 
+
+# Fifth Donate - Add addresess and additional informations
+
+class DonateAddressAdd(forms.ModelForm):
+    class Meta:
+        model = HelpPackage
+        fields = ('street', 'city', 'post_code', 'phone_num', 'date', 'time', 'comments')
+        widgets = {
+            'post_code': forms.TextInput(attrs={"pattern": "[0-9]{2}\-[0-9]{3}"}),
+            'phone_num': forms.TextInput(attrs={"type": "tel", "pattern": "[0-9]{3}-[0-9]{3}-[0-9]{3}"}),
+            'date': forms.DateInput(attrs={"type": "date", "name": "date"}),
+            'time': forms.TimeInput(attrs={"type": "time", "name": "time"}),
+            'comments': forms.Textarea(attrs={"rows": "5"}),
+        }

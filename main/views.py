@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import View
 from main.forms import LoginForm, AddUserForm, UserEditForm, ProfileForm, DonateFirstForm, DonateSecondForm, \
-    DonateThirdSearch
+    DonateThirdSearch, DonateAddressAdd
 from main.models import UserProfile, Towns, HelpType, Institution
 
 
@@ -197,7 +197,22 @@ class DonateFourth(LoginRequiredMixin, View):
 class DonateFifth(LoginRequiredMixin, View):
 
     def get(self, request):
-        return render(request, 'main/form_5.html')
+        form = DonateAddressAdd()
+        return render(request, 'main/form_5.html', {"form": form})
+
+    def post(self, request):
+        form = DonateAddressAdd(request.POST)
+        if form.is_valid():
+            return redirect('sixth-donate')
+        return render(request, 'main/form_5.html', {"form": form})
+
+
+# SIXTH
+
+class DonateSixth(LoginRequiredMixin, View):
+
+    def get(self, request):
+        return render(request, 'main/form_6.html')
 
     def post(self, request):
         pass

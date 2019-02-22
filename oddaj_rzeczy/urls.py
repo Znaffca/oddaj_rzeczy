@@ -19,7 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from main.views import IndexView, FormView, LoginPage, AccountDetails, RegisterView, UserEdit, DonateFirst, \
-    DonateSecond, DonateThird, DonateFourth
+    DonateSecond, DonateThird, DonateFourth, DonateFifth, DonateSixth
 
 urlpatterns = [
     path('admin/', admin.site.urls, name="admin-site"),
@@ -36,6 +36,8 @@ urlpatterns = [
     path('donates/form/2/', DonateSecond.as_view(), name="second-donate"),
     path('donates/form/3/', DonateThird.as_view(), name="third-donate"),
     path('donates/form/4/', DonateFourth.as_view(), name="fourth-donate"),
+    path('donates/form/5/', DonateFifth.as_view(), name="fifth-donate"),
+    path('donates/form/6/', DonateSixth.as_view(), name="sixth-donate"),
 ]
 
 if settings.DEBUG:

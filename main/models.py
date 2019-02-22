@@ -1,5 +1,3 @@
-from django.contrib.auth.models import User
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.conf import settings
 
@@ -52,7 +50,7 @@ class UserProfile(models.Model):
     phone_num = models.CharField(max_length=20, verbose_name="Telefon")
 
     def __str__(self):
-        return f'{self.user.username}'
+        return f'{self.user}'
 
     class Meta:
         verbose_name_plural = "Profile użytkowników"
@@ -103,7 +101,8 @@ class HelpPackage(models.Model):
     city = models.CharField(max_length=64, null=True, verbose_name="Miasto")
     post_code = models.CharField(max_length=6, null=True, verbose_name="Kod Pocztowy")
     phone_num = models.CharField(max_length=16, null=True, verbose_name="Numer telefonu")
-    date = models.DateTimeField(null=True, verbose_name="Data i godzina odbioru")
+    date = models.DateField(null=True, verbose_name="Data odbioru")
+    time = models.TimeField(null=True, verbose_name="Godzina odbioru")
     comments = models.TextField(null=True, verbose_name="Uwagi dla kuriera")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user",
                              verbose_name="Autor")

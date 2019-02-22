@@ -53,7 +53,7 @@ class InstitutionAdmin(admin.ModelAdmin):
 @admin.register(HelpPackage)
 class HelpPackageAdmin(admin.ModelAdmin):
     list_display = ['id', 'usable_clothes', 'useless_clothes', 'toys', 'books', 'others', 'bags', 'institution', 'street',
-                    'city', 'post_code', 'phone_num', 'date', 'comments', 'user']
+                    'city', 'post_code', 'phone_num', 'date', 'time', 'comments', 'user']
     list_filter = ['institution', 'city']
     fieldsets = (
         ('Rzeczy dla potrzebujących', {
@@ -69,7 +69,7 @@ class HelpPackageAdmin(admin.ModelAdmin):
             'fields': ('city', 'street', 'post_code', 'phone_num')
         }),
         ('Termin odbioru', {
-            'fields': ('date', 'comments')
+            'fields': ('date', 'time', 'comments')
         }),
         ('Utworzono przez', {
             'fields': ('user',)
