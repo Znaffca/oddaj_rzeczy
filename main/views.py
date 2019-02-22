@@ -3,8 +3,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import View
-from main.forms import LoginForm, AddUserForm, UserEditForm, ProfileForm, DonateFirstForm, DonateSecondForm
-from main.models import UserProfile, HelpType, Towns
+from main.forms import LoginForm, AddUserForm, UserEditForm, ProfileForm, DonateFirstForm, DonateSecondForm, \
+    DonateThirdSearch
+from main.models import UserProfile
 
 
 # landing page
@@ -99,7 +100,7 @@ class UserEdit(LoginRequiredMixin, View):
 
 # FIRST
 
-class DonateFirst(View):
+class DonateFirst(LoginRequiredMixin, View):
 
     def get(self, request):
         if 'form' in request.session:
@@ -125,7 +126,7 @@ class DonateFirst(View):
 
 # SECOND
 
-class DonateSecond(View):
+class DonateSecond(LoginRequiredMixin, View):
 
     def get(self, request):
         form = DonateSecondForm()
@@ -141,9 +142,32 @@ class DonateSecond(View):
 
 # THIRD
 
-class DonateThird(View):
+class DonateThird(LoginRequiredMixin, View):
 
     def get(self, request):
-        help = HelpType.objects.all()
-        towns = Towns.objects.all()
-        return render(request, 'main/form_3.html', {'help': help, 'towns': towns})
+        if 'search' in request.session:
+            city_form = DonateThirdSearch(initial=request.session['search'])
+        else:
+            city_form = DonateThirdSearch
+        return render(request, 'main/form_3.html', {'city_form': city_form})
+
+    def post(self, request):
+        city_form = DonateThirdSearch(request.POST)
+        if city_form.is_valid():
+            # s = city_form.cleaned_data
+            # city = s['city']
+            # request.session['search'] = {
+            #     'city': city.id,
+            #     'help': s['help'],
+            #     'institution': s['institution']
+            # }
+            return redirect('fourth-donate')
+        return render(request, 'main/form_3.html', {'city_form': city_form})
+
+
+# FOURTH
+
+class DonateFourth(LoginRequiredMixin, View):
+
+    def get(self, request):
+        return render(request, 'main/form_4.html')

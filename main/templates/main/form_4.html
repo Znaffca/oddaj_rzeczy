@@ -1,0 +1,58 @@
+{% extends 'main/__base__.html' %}
+  {% block title %}Utwórz paczkę z darami{% endblock title %}
+{% block class %}header--form-page{% endblock class %}
+  {% block header %}
+
+      {% include 'main/form_header.html' %}
+
+  {% endblock header %}
+  {% load widget_tweaks %}
+  {% block content %}
+    <section class="form--steps">
+
+        {% include 'main/form_instructions.html' %}
+
+      <div class="form--steps-container">
+        <div class="form--steps-counter">Krok <span>4</span>/5</div>
+
+          <form>
+           <div data-step="4" class="active">
+            <h3>Wybierz organizacje, której chcesz pomóc:</h3>
+
+            <div class="form-group form-group--checkbox">
+              <label>
+                <input type="radio" name="organization" value="old" />
+                <span class="checkbox radio"></span>
+                <span class="description">
+                  <div class="title">Fundacja “Bez domu”</div>
+                  <div class="subtitle">
+                    Cel i misja: Pomoc dla osób nie posiadających miejsca
+                    zamieszkania
+                  </div>
+                </span>
+              </label>
+            </div>
+
+            <div class="form-group form-group--checkbox">
+              <label>
+                <input type="radio" name="organization" value="old" />
+                <span class="checkbox radio"></span>
+                <span class="description">
+                  <div class="title">Fundacja “Dla dzieci"</div>
+                  <div class="subtitle">
+                    Cel i misja: Pomoc osobom znajdującym się w trudnej sytuacji
+                    życiowej.
+                  </div>
+                </span>
+              </label>
+            </div>
+
+            <div class="form-group form-group--buttons">
+              <a href="{% url 'third-donate' %}" class="btn" style="margin-right: 20px;">Wstecz</a>
+              <button type="button" class="btn next-step">Dalej</button>
+            </div>
+          </div>
+          </form>
+      </div>
+    </section>
+  {% endblock content %}

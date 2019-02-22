@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 # login form
-from main.models import UserProfile, HelpPackage
+from main.models import UserProfile, HelpPackage, Towns, HelpType
 
 
 class LoginForm(forms.Form):
@@ -84,4 +84,12 @@ class DonateSecondForm(forms.ModelForm):
         fields = 'bags',
         widgets = {'bags': forms.NumberInput}
 
+
+# Third Donate - Search Form
+
+class DonateThirdSearch(forms.Form):
+    city = forms.ModelChoiceField(queryset=Towns.objects.all(), required=False)
+    help = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=HelpType.objects.all(),
+                                          required=True)
+    institution = forms.CharField(widget=forms.Textarea(attrs={"rows": '4'}), required=False)
 
