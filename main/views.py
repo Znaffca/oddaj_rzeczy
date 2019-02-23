@@ -1,6 +1,8 @@
+import json
+
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views import View
@@ -197,12 +199,34 @@ class DonateFourth(LoginRequiredMixin, View):
 class DonateFifth(LoginRequiredMixin, View):
 
     def get(self, request):
-        form = DonateAddressAdd()
+        if 'address' and 'datetime' in request.session:
+            address = dict()
+            for key, value in request.session['address'].items():
+                address[key] = value
+            for key, value in request.session['datetime'].items():
+                address[key] = json.loads(value)
+            form = DonateAddressAdd(initial=address)
+        else:
+            form = DonateAddressAdd()
         return render(request, 'main/form_5.html', {"form": form})
 
     def post(self, request):
         form = DonateAddressAdd(request.POST)
         if form.is_valid():
+            s = form.cleaned_data
+            date = json.dumps(s['date'], cls=DjangoJSONEncoder)
+            time = json.dumps(s['time'], cls=DjangoJSONEncoder)
+            request.session['address'] = {
+                'street': s['street'],
+                'city': s['city'],
+                'post_code': s['post_code'],
+                'phone_num': s['phone_num'],
+                'comments': s['comments'],
+            }
+            request.session['datetime'] = {
+                'date': date,
+                'time': time,
+            }
             return redirect('sixth-donate')
         return render(request, 'main/form_5.html', {"form": form})
 
@@ -212,6 +236,8 @@ class DonateFifth(LoginRequiredMixin, View):
 class DonateSixth(LoginRequiredMixin, View):
 
     def get(self, request):
+        if request.session:
+            pass
         return render(request, 'main/form_6.html')
 
     def post(self, request):
