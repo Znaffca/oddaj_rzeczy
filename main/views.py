@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from main.forms import LoginForm, AddUserForm, UserEditForm, ProfileForm, DonateFirstForm, DonateSecondForm, \
     DonateThirdSearch, DonateAddressAdd
-from main.models import UserProfile, Towns, HelpType, Institution
+from main.models import UserProfile, Towns, HelpType, Institution, HelpPackage
 
 
 # landing page
@@ -236,9 +236,49 @@ class DonateFifth(LoginRequiredMixin, View):
 class DonateSixth(LoginRequiredMixin, View):
 
     def get(self, request):
-        if request.session:
-            pass
-        return render(request, 'main/form_6.html')
+        if 'form' and 'bags' and 'institution' and 'address' and 'datetime' in request.session:
+            s = request.session
+            address = dict()
+            for key, value in request.session['address'].items():
+                address[key] = value
+            for key, value in request.session['datetime'].items():
+                address[key] = json.loads(value)
+            ctx = {
+                'bags': s['bags'],
+                'institution': Institution.objects.get(pk=s['institution']),
+                'address': address
+            }
+            return render(request, 'main/form_6.html', ctx)
+        else:
+            return redirect('first-donate')
 
     def post(self, request):
-        pass
+        if 'form' and 'bags' and 'institution' and 'address' and 'datetime' in request.session:
+            f = request.session['form']
+            s = request.session
+            address = dict()
+            for key, value in request.session['address'].items():
+                address[key] = value
+            for key, value in request.session['datetime'].items():
+                address[key] = json.loads(value)
+            HelpPackage.objects.create(usable_clothes=s['usable_clothes'],
+                                       useless_clothes=f['useless_clothes'],
+                                       toys=f['toys'],
+                                       books=f['books'],
+                                       others=f['others'],
+                                       bags=s['bags'],
+                                       institution=Institution.objects.get(pk=s['institution']),
+                                       street=address['street'],
+                                       city=address['city'],
+                                       post_code=address['post_code'],
+                                       phone_num=address['phone_num'],
+                                       date=address['date'],
+                                       time=address['time'],
+                                       comments=address['comments'],
+                                       user=request.user
+                                       )
+            request.session.delete()
+            return redirect('donate-summary')
+        return redirect('first-donate')
+
+
