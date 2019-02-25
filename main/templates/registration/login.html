@@ -35,7 +35,7 @@
         </div>
         <div class="form-group">
           {% render_field form.password type="password" name="password" id="password" placeholder="Hasło" %}
-          <a href="#" class="btn btn--small btn--without-border reset-password">Przypomnij hasło</a>
+          <a href="{% url 'password_reset' %}" class="btn btn--small btn--without-border reset-password">Przypomnij hasło</a>
         </div>
           <input type="hidden" name="next" value="{{ request.GET.next }}" />
         <div class="form-group form-group--buttons">

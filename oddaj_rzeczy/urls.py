@@ -22,17 +22,28 @@ from main.views import IndexView, LoginPage, AccountDetails, RegisterView, UserE
     DonateSecond, DonateThird, DonateFourth, DonateFifth, DonateSixth, DonateSummary, UserPackages, PackageDetails
 
 urlpatterns = [
+    # admin panel
     path('admin/', admin.site.urls, name="admin-site"),
+    # landing page
     path('', IndexView.as_view(), name="main-page"),
+    # login/logout/register view
     path('register/', RegisterView.as_view(), name="register"),
     path('login/', LoginPage.as_view(), name="login-page"),
     path('logout/', auth_views.LogoutView.as_view(), name="logout"),
+    # user account sites
     path('account/details/', AccountDetails.as_view(), name="account-details"),
     path('account/edit/', UserEdit.as_view(), name="profile-edit"),
     path('account/packages/', UserPackages.as_view(), name="user-packages"),
     re_path(r'^account/packages/(?P<id>(\d)+)', PackageDetails.as_view(), name="package-details"),
+    # password change
     path('password_change/', auth_views.PasswordChangeView.as_view(), name="change-password"),
     path('password_change/done', auth_views.PasswordChangeDoneView.as_view(), name="password_change_done"),
+    # password reset urls
+    path('password_reset/', auth_views.PasswordResetView.as_view(), name="password_reset"),
+    path('password_reset/done', auth_views.PasswordResetDoneView.as_view(), name="password_reset_done"),
+    path('reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(), name="password_reset_confirm"),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name="password_reset_complete"),
+    # add HelpPackage Form
     path('donates/form/1/', DonateFirst.as_view(), name="first-donate"),
     path('donates/form/2/', DonateSecond.as_view(), name="second-donate"),
     path('donates/form/3/', DonateThird.as_view(), name="third-donate"),
