@@ -13,6 +13,7 @@ Portfolio lab project - description in progress...
 - user Donates view
 - Donate details - in progress
 - password verification
+- custom pasword validation
 - customizable admin panel
 - Add Donates by User - full View (with fields remember)
 
