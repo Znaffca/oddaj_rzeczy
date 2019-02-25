@@ -1,5 +1,4 @@
 import json
-
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.serializers.json import DjangoJSONEncoder
@@ -9,6 +8,7 @@ from django.views import View
 from main.forms import LoginForm, AddUserForm, UserEditForm, ProfileForm, DonateFirstForm, DonateSecondForm, \
     DonateThirdSearch, DonateAddressAdd
 from main.models import UserProfile, Towns, HelpType, Institution, HelpPackage
+from django.db.models import Sum, Count
 
 
 # landing page
@@ -17,13 +17,6 @@ from main.models import UserProfile, Towns, HelpType, Institution, HelpPackage
 class IndexView(View):
     def get(self, request):
         return render(request, 'main/index.html')
-
-
-# form view
-
-class FormView(View):
-    def get(self, request):
-        return render(request, 'main/form.html')
 
 
 # login view
@@ -76,8 +69,13 @@ class RegisterView(View):
 class AccountDetails(LoginRequiredMixin, View):
 
     def get(self, request):
+        user_packages = HelpPackage.objects.filter(user=request.user)
+        count = user_packages.count()
+        all_bags = user_packages.aggregate(sum_bags=Sum('bags'))
+        bags = all_bags['sum_bags']
         profile = UserProfile.objects.get(user=request.user)
-        return render(request, 'main/profile.html', {"user": request.user, "profile": profile})
+        return render(request, 'main/profile.html', {"user": request.user, "profile": profile, 'packages': count,
+                                                     "all_bags": bags})
 
 
 # Account Edit View
@@ -97,6 +95,15 @@ class UserEdit(LoginRequiredMixin, View):
             user_profile_form.save()
             return HttpResponseRedirect('/account/details/')
         return render(request, 'main/profile_edit.html', {"user_form": user_form, "user_profile": user_profile_form})
+
+
+# account packages
+
+class UserPackages(LoginRequiredMixin, View):
+
+    def get(self, request):
+        packages = HelpPackage.objects.filter(user=request.user).order_by('-date_added')
+        return render(request, 'main/user_packages.html', {"packages": packages})
 
 
 # Donates Views:::
@@ -261,7 +268,7 @@ class DonateSixth(LoginRequiredMixin, View):
                 address[key] = value
             for key, value in request.session['datetime'].items():
                 address[key] = json.loads(value)
-            HelpPackage.objects.create(usable_clothes=s['usable_clothes'],
+            HelpPackage.objects.create(usable_clothes=f['usable_clothes'],
                                        useless_clothes=f['useless_clothes'],
                                        toys=f['toys'],
                                        books=f['books'],
@@ -277,8 +284,17 @@ class DonateSixth(LoginRequiredMixin, View):
                                        comments=address['comments'],
                                        user=request.user
                                        )
-            request.session.delete()
+            for key in list(request.session.keys()):
+                if not key.startswith("_"):
+                    del request.session[key]
             return redirect('donate-summary')
         return redirect('first-donate')
 
+
+# SUMMARY
+
+class DonateSummary(LoginRequiredMixin, View):
+
+    def get(self, request):
+        return render(request, 'main/form_summary.html')
 

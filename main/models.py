@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-
+from django.utils import timezone
 
 PROVINCE_CHOICES = (
     (1, 'dolnośląskie'),
@@ -106,6 +106,7 @@ class HelpPackage(models.Model):
     comments = models.TextField(null=True, verbose_name="Uwagi dla kuriera")
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="user",
                              verbose_name="Autor")
+    date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         pass

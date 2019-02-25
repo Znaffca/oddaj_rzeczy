@@ -13,7 +13,8 @@
         {% include 'main/form_instructions.html' %}
 
       <div class="form--steps-container">
-        <form>
+        <form method="POST">
+          {% csrf_token %}
            <!-- STEP 6 -->
           <div data-step="6" class="active">
             <h3>Podsumowanie Twojej darowizny</h3>

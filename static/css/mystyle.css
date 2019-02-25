@@ -179,3 +179,25 @@ table .profile--table-val {
 .select-items div:hover, .same-as-selected {
   background-color: rgba(0, 0, 0, 0.1);
 }
+
+
+/* DISPLAY PACKAGES - TABLE STYLE */
+
+.packages {
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 18px;
+    text-align: center;
+}
+.packages thead tr{
+    height: 35px;
+    background-color: #f9c910;
+}
+
+.packages tbody tr {
+    height: 50px;
+}
+
+.packages tbody tr:hover {
+    background-color: #ebebeb;
+}

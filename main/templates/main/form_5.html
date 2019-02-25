@@ -10,7 +10,7 @@
   {% block content %}
     <section class="form--steps">
 
-        {% include 'main/form_instructions.html' %}
+        {% include 'form_steps/5.html' %}
 
       <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>5</span>/5</div>
@@ -57,7 +57,11 @@
                 <div class="form-group form-group--inline">
                   <label>
                     Uwagi dla kuriera
-                    {{ form.comments }}
+                    {% for comment in form.comments %}
+                      {{ form.comments }}
+                    {% empty %}
+                    Brak uwag
+                    {% endfor %}
                   </label>
                 </div>
               </div>
