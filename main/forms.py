@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 
 
 # login form
+
 from main.models import UserProfile, HelpPackage, Towns, HelpType
 
 
@@ -27,6 +28,12 @@ class AddUserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'email')
+
+    def clean_username(self):
+        user = self.cleaned_data['username']
+        if User.objects.filter(username=user).exists():
+            raise forms.ValidationError("Użytkownik o podanej nazwie już istnienie.")
+        return user
 
     def clean_password2(self):
         check = self.cleaned_data

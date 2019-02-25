@@ -2,7 +2,9 @@ import json
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.exceptions import ValidationError
 from django.core.mail import EmailMessage
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponseRedirect
@@ -64,6 +66,15 @@ class RegisterView(View):
         form = AddUserForm(request.POST)
         if form.is_valid():
             new_user = form.save(commit=False)
+            username = form.cleaned_data['username']
+            psswd = form.cleaned_data['password']
+
+            try:
+                validate_password(psswd, username)
+            except ValidationError as e:
+                form.add_error('password', e)
+                return render(request, 'main/register.html', {"form": form})
+
             new_user.set_password(form.cleaned_data['password'])
             new_user.is_active = False
             new_user.save()

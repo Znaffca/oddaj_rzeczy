@@ -90,6 +90,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length': 8,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -97,6 +100,10 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+    {'NAME': 'main.validators.NumberValidator', },
+    {'NAME': 'main.validators.UppercaseValidator', },
+    {'NAME': 'main.validators.LowercaseValidator', },
+    {'NAME': 'main.validators.SymbolValidator', },
 ]
 
 SITE_ID = 2
