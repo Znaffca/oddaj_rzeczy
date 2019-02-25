@@ -18,19 +18,27 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-from main.views import IndexView, FormView, LoginPage, AccountDetails, RegisterView, UserEdit
+from main.views import IndexView, LoginPage, AccountDetails, RegisterView, UserEdit, DonateFirst, \
+    DonateSecond, DonateThird, DonateFourth, DonateFifth, DonateSixth, DonateSummary, UserPackages
 
 urlpatterns = [
     path('admin/', admin.site.urls, name="admin-site"),
     path('', IndexView.as_view(), name="main-page"),
-    path('form/', FormView.as_view(), name="form"),
     path('register/', RegisterView.as_view(), name="register"),
     path('login/', LoginPage.as_view(), name="login-page"),
     path('logout/', auth_views.LogoutView.as_view(), name="logout"),
     path('account/details/', AccountDetails.as_view(), name="account-details"),
     path('account/edit/', UserEdit.as_view(), name="profile-edit"),
+    path('account/packages/', UserPackages.as_view(), name="user-packages"),
     path('password_change/', auth_views.PasswordChangeView.as_view(), name="change-password"),
     path('password_change/done', auth_views.PasswordChangeDoneView.as_view(), name="password_change_done"),
+    path('donates/form/1/', DonateFirst.as_view(), name="first-donate"),
+    path('donates/form/2/', DonateSecond.as_view(), name="second-donate"),
+    path('donates/form/3/', DonateThird.as_view(), name="third-donate"),
+    path('donates/form/4/', DonateFourth.as_view(), name="fourth-donate"),
+    path('donates/form/5/', DonateFifth.as_view(), name="fifth-donate"),
+    path('donates/form/6/', DonateSixth.as_view(), name="sixth-donate"),
+    path('donates/form/summary/', DonateSummary.as_view(), name="donate-summary"),
 ]
 
 if settings.DEBUG:

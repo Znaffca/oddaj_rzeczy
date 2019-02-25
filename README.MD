@@ -1,14 +1,23 @@
 # oddaj_rzeczy - portfolio_lab project <br>
-Created as a final project of Python developer course. Still in progress...
+Portfolio lab project - description in progress...
 
 #### 12.02.2019 - what is working:
 - project first configuration
+- main page
+- login, logut, authentication,
+- change password for user
+- user profile view
+- user-profile edit
+- customizable admin panel
+- add Donate form view - working 1st, 2nd form views, 3rd in progress
+
 
 #### To-Do-List:
  - in progress
  
 #### Known issues:
-- in progress
+- user redirection after login
+- 
 
 ### Download and use it in your local environment:
 - Fork repository

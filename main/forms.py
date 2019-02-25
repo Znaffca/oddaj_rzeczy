@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 # login form
-from main.models import UserProfile
+from main.models import UserProfile, HelpPackage, Towns, HelpType
 
 
 class LoginForm(forms.Form):
@@ -60,4 +60,50 @@ class UserEditForm(forms.ModelForm):
         model = User
         fields = ('first_name', 'last_name', 'email')
 
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exclude(id=self.instance.pk):
+            raise forms.ValidationError(f"Użytkownik o adresie {email} już istnieje.")
+        return email
 
+
+# DONATE FORMS
+# First Donate
+
+class DonateFirstForm(forms.ModelForm):
+    class Meta:
+        model = HelpPackage
+        fields = ('usable_clothes', 'useless_clothes', 'toys', 'books', 'others')
+
+
+# Second Donate
+
+class DonateSecondForm(forms.ModelForm):
+    class Meta:
+        model = HelpPackage
+        fields = 'bags',
+        widgets = {'bags': forms.NumberInput}
+
+
+# Third Donate - Search Form
+
+class DonateThirdSearch(forms.Form):
+    city = forms.ModelChoiceField(queryset=Towns.objects.all(), required=False)
+    help = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=HelpType.objects.all(),
+                                          required=True)
+    institution = forms.CharField(widget=forms.Textarea(attrs={"rows": '4'}), required=False)
+
+
+# Fifth Donate - Add addresess and additional informations
+
+class DonateAddressAdd(forms.ModelForm):
+    class Meta:
+        model = HelpPackage
+        fields = ('street', 'city', 'post_code', 'phone_num', 'date', 'time', 'comments')
+        widgets = {
+            'post_code': forms.TextInput(attrs={"pattern": "[0-9]{2}\-[0-9]{3}"}),
+            'phone_num': forms.TextInput(attrs={"type": "tel", "pattern": "[0-9]{3}-[0-9]{3}-[0-9]{3}"}),
+            'date': forms.DateInput(attrs={"type": "date", "name": "date"}),
+            'time': forms.TimeInput(attrs={"type": "time", "name": "time"}),
+            'comments': forms.Textarea(attrs={"rows": "5"}),
+        }

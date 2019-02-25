@@ -21,7 +21,7 @@
     <section class="stats">
       <div class="container container--85">
         <div class="stats--item">
-          <em>10</em>
+          <em>{{ all_bags }}</em>
           <h3>Oddanych worków</h3>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius est beatae, quod accusamus illum tempora!</p>
         </div>
@@ -33,7 +33,7 @@
         </div>
 
         <div class="stats--item">
-          <em>7</em>
+          <em>{{ packages }}</em>
           <h3>Zorganizowanych zbiórek</h3>
           <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quos dolores commodi error. Natus, officiis vitae?</p>
         </div>
@@ -45,7 +45,7 @@
             <h2 style="padding-top:20px;">Szczegóły profilu</h2>
             <nav class="animated">
 	            <a href="{% url 'profile-edit' %}">PROFIL</a>
-	            <a href="#">MOJE ZBIÓRKI</a>
+	            <a href="{% url 'user-packages' %}">MOJE ZBIÓRKI</a>
 	            <a href="#">USTAWIENIA</a>
 	            <a href="{% url 'change-password' %}">ZMIANA HASŁA</a>
 	        <div class="animation start-home"></div>

@@ -1,0 +1,72 @@
+{% extends 'main/__base__.html' %}
+  {% block title %}Utwórz paczkę z darami{% endblock title %}
+{% block class %}header--form-page{% endblock class %}
+  {% block header %}
+
+      {% include 'main/form_header.html' %}
+
+  {% endblock header %}
+  {% load widget_tweaks %}
+  {% block content %}
+    <section class="form--steps">
+
+        {% include 'main/form_instructions.html' %}
+
+      <div class="form--steps-container">
+        <form method="POST">
+          {% csrf_token %}
+           <!-- STEP 6 -->
+          <div data-step="6" class="active">
+            <h3>Podsumowanie Twojej darowizny</h3>
+
+            <div class="summary">
+              <div class="form-section">
+                <h4>Oddajesz:</h4>
+                <ul>
+                  <li>
+                    <span class="icon icon-bag"></span>
+                    <span class="summary--text"
+                      >{{ bags }} - tyle worków rzeczy przekazujesz</span
+                    >
+                  </li>
+
+                  <li>
+                    <span class="icon icon-hand"></span>
+                    <span class="summary--text"
+                      >Dla organizacji: {{ institution.name }}</span
+                    >
+                  </li>
+                </ul>
+              </div>
+
+              <div class="form-section form-section--columns">
+                <div class="form-section--column">
+                  <h4>Adres odbioru:</h4>
+                  <ul>
+                    <li>{{ address.street }}</li>
+                    <li>{{ address.city }}</li>
+                    <li>{{ address.post_code }}</li>
+                    <li>{{ address.phone_num }}</li>
+                  </ul>
+                </div>
+
+                <div class="form-section--column">
+                  <h4>Termin odbioru:</h4>
+                  <ul>
+                    <li>{{ address.date }}</li>
+                    <li>{{ address.time }}</li>
+                    <li>{{ address.comments }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group form-group--buttons">
+              <a href="{% url 'fifth-donate' %}" class="btn" style="margin-right: 20px;">Wstecz</a>
+              <button type="submit" class="btn">Potwierdzam</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  {% endblock content %}

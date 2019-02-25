@@ -1,0 +1,77 @@
+{% extends 'main/__base__.html' %}
+  {% block title %}Utwórz paczkę z darami{% endblock title %}
+{% block class %}header--form-page{% endblock class %}
+  {% block header %}
+
+      {% include 'main/form_header.html' %}
+
+  {% endblock header %}
+  {% load widget_tweaks %}
+  {% block content %}
+    <section class="form--steps">
+
+        {% include 'form_steps/5.html' %}
+
+      <div class="form--steps-container">
+        <div class="form--steps-counter">Krok <span>5</span>/5</div>
+
+          <form method="post">
+              {% csrf_token %}
+          <div data-step="5" class="active">
+            <h3>Podaj adres oraz termin odbioru rzecz przez kuriera:</h3>
+
+            <div class="form-section form-section--columns">
+              <div class="form-section--column">
+                <h4>Adres odbioru</h4>
+                <div class="form-group form-group--inline">
+                  <label> Ulica {{ form.street }} </label>
+                </div>
+
+                <div class="form-group form-group--inline">
+                  <label> Miasto {{ form.city }} </label>
+                </div>
+
+                <div class="form-group form-group--inline">
+                  <label>
+                    Kod pocztowy {{ form.post_code }}
+                  </label>
+                </div>
+
+                <div class="form-group form-group--inline">
+                  <label>
+                    Numer telefonu {{ form.phone_num }}
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-section--column">
+                <h4>Termin odbioru</h4>
+                <div class="form-group form-group--inline">
+                  <label> Data {{ form.date }} </label>
+                </div>
+
+                <div class="form-group form-group--inline">
+                  <label> Godzina {{ form.time }} </label>
+                </div>
+
+                <div class="form-group form-group--inline">
+                  <label>
+                    Uwagi dla kuriera
+                    {% for comment in form.comments %}
+                      {{ form.comments }}
+                    {% empty %}
+                    Brak uwag
+                    {% endfor %}
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group form-group--buttons">
+              <a href="{% url 'fourth-donate' %}" class="btn" style="margin-right: 20px;">Wstecz</a>
+              <button type="submit" class="btn next-step">Dalej</button>
+            </div>
+          </div>
+          </form>
+      </div>
+    </section>
+  {% endblock content %}

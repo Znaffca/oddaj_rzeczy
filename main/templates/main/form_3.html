@@ -1,0 +1,59 @@
+{% extends 'main/__base__.html' %}
+  {% block title %}Utwórz paczkę z darami{% endblock title %}
+{% block class %}header--form-page{% endblock class %}
+  {% block header %}
+
+      {% include 'main/form_header.html' %}
+
+  {% endblock header %}
+  {% load widget_tweaks %}
+  {% block content %}
+    <section class="form--steps">
+
+        {% include 'form_steps/3.html' %}
+
+      <div class="form--steps-container">
+        <div class="form--steps-counter">Krok <span>3</span>/5</div>
+
+          <!-- STEP 3 -->
+          <form method="post" action="">
+            {% csrf_token %}
+
+            <div data-step="3" class="active">
+            <h3>Lokalizacja:</h3>
+            <div class="form-group form-group--dropdown">
+              <div class="custom-select">
+              {{ city_form.city }}
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h4>Komu chcesz pomóc?</h4>
+              <div class="form-section--checkboxes">
+                {% for field in city_form.help %}
+                    <div class="form-group form-group--checkbox">
+                      <label>
+                        {{ field.tag }}
+                        <span class="checkbox">{{ field.choice_label }}</span>
+                      </label>
+                    </div>
+                {% endfor %}
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h4>Wpisz nazwę konkretnej organizacji (opcjonalnie)</h4>
+              <div class="form-group">
+                {{ city_form.institution }}
+              </div>
+            </div>
+
+            <div class="form-group form-group--buttons">
+              <a href="{% url 'second-donate' %}" class="btn" style="margin-right: 20px;">Wstecz</a>
+              <button type="submit" class="btn">Szukaj</button>
+            </div>
+          </div>
+          </form>
+      </div>
+    </section>
+  {% endblock content %}

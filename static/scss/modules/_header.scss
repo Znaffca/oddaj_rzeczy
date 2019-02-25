@@ -18,6 +18,11 @@ header {
     background-repeat: no-repeat;
     background-size: auto 100%;
     height: 100vh;
+
+    @include medium {
+      background-position: bottom left -55vh;
+      background-size: 90vw;
+    }
   }
 
   &.header--logged-page {
@@ -83,63 +88,62 @@ header {
           padding-left: 25px;
           justify-content: flex-start;
         }
+      }
+    }
 
+    &--steps {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 40px;
+
+      &-title {
+        text-align: center;
+        font-size: 3.5rem;
+        line-height: 5rem;
+        @include openSans(300);
       }
 
-
-      &--steps {
+      ul {
+        list-style: none;
+        padding: 0;
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 40px;
+        margin-top: 60px;
+        $box-size: 125px;
 
-        &-title {
-          text-align: center;
-          font-size: 3.5rem;
-          line-height: 5rem;
-          @include openSans(300);
-        }
+        li {
+          border: 1px solid $main-color;
+          transform: rotate(45deg);
+          width: $box-size;
+          height: $box-size;
+          margin: 0 14px;
 
-        ul {
-          list-style: none;
-          padding: 0;
-          display: flex;
-          margin-top: 60px;
-          $box-size: 125px;
-
-          li {
-            border: 1px solid $main-color;
-            transform: rotate(45deg);
+          > div {
+            transform: rotate(-45deg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             width: $box-size;
             height: $box-size;
-            margin: 0 14px;
+            @include openSans(300);
+          }
 
-            > div {
-              transform: rotate(-45deg);
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              width: $box-size;
-              height: $box-size;
-              @include openSans(300);
-            }
+          em {
+            font-size: 2.5rem;
+            font-style: normal;
+          }
 
-            em {
-              font-size: 2.5rem;
-              font-style: normal;
-            }
-
-            span {
-              text-align: center;
-              font-size: 2rem;
-              margin-top: 15px;
-            }
+          span {
+            text-align: center;
+            font-size: 2rem;
+            margin-top: 15px;
           }
         }
       }
     }
   }
 }
+
 
 div {
   &.div--main-page {

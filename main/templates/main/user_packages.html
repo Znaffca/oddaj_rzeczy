@@ -1,0 +1,45 @@
+{% extends 'main/__base__.html' %}
+{% load static %}
+{% block title %}Moje zbiórki{% endblock title %}
+{% block class %}{%endblock class%}
+{% block header %}{% endblock header %}
+{% block content %}
+{% load widget_tweaks %}
+<section class="login-page">
+    <h2>Moje zbiórki</h2>
+        <a href="{% url 'first-donate' %}" class="btn btn--large">Dodaj</a>
+    <table class="packages">
+      <thead>
+        <tr class="title-style">
+            <th>ID</th>
+            <th>NAZWA INSTYTUCJI</th>
+            <th>ILOŚĆ WORKÓW</th>
+            <th>DATA DODANIA</th>
+            <th>CZY DOSTARCZONO</th>
+            <th>SZCZEGÓŁY</th>
+        </tr>
+      <thead>
+      <tbody>
+        {% for package in packages %}
+        <tr>
+            <td style="font-weight:bold;">{{ package.id }}</td>
+            <td>{{ package.institution.name }}</td>
+            <td>{{ package.bags }}</td>
+            <td>{{ package.date_added }}</td>
+            {% if package.delivered %}
+            <td>
+              <img src="{% static 'images/mark1.png' %}" alt="mark" width="20" height="auto"><br>
+              {{ package.delivered.date }}
+            </td>
+            {% else %}
+            <td><img src="{% static 'images/mark2.png' %}" alt="unmark" width="20" height="auto"></td>
+            {% endif %}
+          <td><a href="{% url 'first-donate' %}" class="btn">Szczegóły</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    </section>
+
+{% endblock content %}

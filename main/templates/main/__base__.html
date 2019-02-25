@@ -8,7 +8,7 @@
     <title>{% block title %}{% endblock title %} | Oddaj rzeczy</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <link rel="stylesheet" href="{% static 'css/mystyle.css' %}" />
-
+  </head>
   <body>
     <header class="{% block class %}header--main-page{% endblock class %}">
       <nav class="container container--70">
@@ -47,7 +47,7 @@
           </h1>
 
           <ul class="slogan--buttons">
-            <li><a href="#" class="btn btn--large">Oddaj rzeczy</a></li>
+            <li><a href="{% url 'first-donate' %}" class="btn btn--large">Oddaj rzeczy</a></li>
             <li><a href="#" class="btn btn--large">Zorganizuj zbiórkę</a></li>
           </ul>
         </div>
@@ -78,6 +78,7 @@
       </div>
     </footer>
 
-    <script src="{% static 'js/app.js' %}"></script>
+    <!--<script src="{% static 'js/app.js' %}"></script>-->
+    <script src="{% static 'js/select_menu.js' %}"></script>
   </body>
 </html>

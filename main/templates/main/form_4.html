@@ -1,0 +1,47 @@
+{% extends 'main/__base__.html' %}
+  {% block title %}Utwórz paczkę z darami{% endblock title %}
+{% block class %}header--form-page{% endblock class %}
+  {% block header %}
+
+      {% include 'main/form_header.html' %}
+
+  {% endblock header %}
+  {% load widget_tweaks %}
+  {% block content %}
+    <section class="form--steps">
+
+        {% include 'form_steps/4.html' %}
+
+      <div class="form--steps-container">
+        <div class="form--steps-counter">Krok <span>4</span>/5</div>
+
+          <form method="POST">
+               {% csrf_token %}
+           <div data-step="4" class="active">
+            <h3>Wybierz organizacje, której chcesz pomóc:</h3>
+            {% for institution in city_institution %}
+            <div class="form-group form-group--checkbox">
+              <label>
+                <input type="radio" name="organization" value="{{institution.pk}}" />
+                <span class="checkbox radio"></span>
+                <span class="description">
+                  <div class="title">{{ institution.name }}</div>
+                  <div class="subtitle">
+                    Cel i misja: {{ institution.mission }}
+                  </div>
+                </span>
+              </label>
+            </div>
+               {% empty %}
+               <h3>Brak organizacji spełniającej podane kryteria</h3>
+               {% endfor %}
+
+            <div class="form-group form-group--buttons">
+              <a href="{% url 'third-donate' %}" class="btn" style="margin-right: 20px;">Wstecz</a>
+              <button type="submit" class="btn next-step">Dalej</button>
+            </div>
+          </div>
+          </form>
+      </div>
+    </section>
+  {% endblock content %}

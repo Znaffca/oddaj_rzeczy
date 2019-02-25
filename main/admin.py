@@ -1,12 +1,22 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from main.models import UserProfile, Towns, Institution, HelpPackage
-
+from main.models import UserProfile, Towns, Institution, HelpPackage, HelpType
 
 admin.site.site_header = "Oddaj rzeczy - panel administracyjny aplikacji"
 admin.site.site_title = "Oddaj rzeczy"
 admin.site.index_title = "Strona główna"
+
+
+@admin.register(HelpType)
+class HelpTypeAdmin(admin.ModelAdmin):
+    list_display = 'type',
+    fieldsets = ("Komu pomaga", {'fields': ['type']}),
+
+
+class HelpTypeInline(admin.TabularInline):
+    model = Institution.help.through
+    extra = 1
 
 
 @admin.register(UserProfile)
@@ -25,24 +35,25 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Towns)
 class TownsAdmin(admin.ModelAdmin):
-    list_display = ['name', 'province']
+    list_display = ['id', 'name', 'province']
     list_filter = 'province',
     fieldsets = ('Miasto', {'fields': ('name', 'province')}),
 
 
 @admin.register(Institution)
 class InstitutionAdmin(admin.ModelAdmin):
-    list_display = ['name', 'type', 'mission', 'town', 'help', 'date_added']
-    list_filter = ['type', 'help']
+    list_display = ['name', 'type', 'mission', 'town', 'date_added']
+    list_filter = ['type']
+    inlines = [HelpTypeInline]
     fieldsets = ('Instytucja', {
-        'fields': ('name', 'type', 'mission', 'town', 'help')
+        'fields': ('name', 'type', 'mission', 'help', 'town')
     }),
 
 
 @admin.register(HelpPackage)
 class HelpPackageAdmin(admin.ModelAdmin):
     list_display = ['id', 'usable_clothes', 'useless_clothes', 'toys', 'books', 'others', 'bags', 'institution', 'street',
-                    'city', 'post_code', 'phone_num', 'date', 'comments']
+                    'city', 'post_code', 'phone_num', 'date', 'time', 'comments', 'user']
     list_filter = ['institution', 'city']
     fieldsets = (
         ('Rzeczy dla potrzebujących', {
@@ -58,6 +69,9 @@ class HelpPackageAdmin(admin.ModelAdmin):
             'fields': ('city', 'street', 'post_code', 'phone_num')
         }),
         ('Termin odbioru', {
-            'fields': ('date', 'comments')
+            'fields': ('date', 'time', 'comments')
+        }),
+        ('Utworzono przez', {
+            'fields': ('user',)
         }),
     )
