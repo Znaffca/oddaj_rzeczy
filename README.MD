@@ -1,23 +1,30 @@
 # oddaj_rzeczy - portfolio_lab project <br>
 Portfolio lab project - description in progress...
 
-#### 12.02.2019 - what is working:
+#### 25.02.2019 - what is working:
 - project first configuration
 - main page
 - login, logut, authentication,
+- activation via email
 - change password for user
+- password reset via email
 - user profile view
 - user-profile edit
+- user Donates view
+- Donate details - in progress
+- password verification
 - customizable admin panel
-- add Donate form view - working 1st, 2nd form views, 3rd in progress
+- Add Donates by User - full View (with fields remember)
 
 
 #### To-Do-List:
- - in progress
+ - Finish Donate Details
+ - change donate status : delivered/undelivered
+ - sites administrators management
  
 #### Known issues:
-- user redirection after login
-- 
+- Donates Validation
+- probably much more than that...
 
 ### Download and use it in your local environment:
 - Fork repository
