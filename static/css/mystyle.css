@@ -201,3 +201,14 @@ table .profile--table-val {
 .packages tbody tr:hover {
     background-color: #ebebeb;
 }
+
+/* Display buttons */
+
+.btn-center {
+    margin: 50px auto 20px auto;
+}
+
+.italic {
+    font-size: 18px;
+    font-style: italic;
+}
