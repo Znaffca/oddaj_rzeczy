@@ -14,7 +14,7 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views import View
 from main.forms import LoginForm, AddUserForm, UserEditForm, ProfileForm, DonateFirstForm, DonateSecondForm, \
-    DonateThirdSearch, DonateAddressAdd
+    DonateThirdSearch, DonateAddressAdd, DeliveredForm
 from main.models import UserProfile, Towns, HelpType, Institution, HelpPackage
 from django.db.models import Sum
 
@@ -160,10 +160,15 @@ class PackageDetails(LoginRequiredMixin, View):
 
     def get(self, request, id):
         package = HelpPackage.objects.get(pk=id)
-        return render(request, 'main/package_details.html', {"package": package})
+        form = DeliveredForm()
+        return render(request, 'main/package_details.html', {"package": package, "form": form})
 
-    def post(self, request):
-        pass
+    def post(self, request, id):
+        package = HelpPackage.objects.get(pk=id)
+        form = DeliveredForm(request.POST)
+        if form.is_valid():
+            return redirect('user-packages')
+        return render(request, 'main/package_details.html', {"package": package, "form": form})
 
 
 # Donates Views:::

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 # login form
 
-from main.models import UserProfile, HelpPackage, Towns, HelpType
+from main.models import UserProfile, HelpPackage, Towns, HelpType, DeliveredPackage
 
 
 class LoginForm(forms.Form):
@@ -114,3 +114,10 @@ class DonateAddressAdd(forms.ModelForm):
             'time': forms.TimeInput(attrs={"type": "time", "name": "time"}),
             'comments': forms.Textarea(attrs={"rows": "5"}),
         }
+
+
+class DeliveredForm(forms.ModelForm):
+    class Meta:
+        model = DeliveredPackage
+        fields = 'delivered',
+        widgets = {'delivered': forms.CheckboxInput}
