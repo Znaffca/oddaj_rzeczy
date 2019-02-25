@@ -1,0 +1,17 @@
+{% extends 'main/__base__.html' %}
+{% load static %}
+{% block title %}Aktywacja konta{% endblock title %}
+{% block class %}{%endblock class%}
+{% block header %}{% endblock header %}
+{% block content %}
+{% load widget_tweaks %}
+<section class="login-page">
+    <h2>Błąd podczas aktywacji</h2>
+        <div class="form-group" style="text-align:center;">
+            <p class="italic"> Link aktywacyjny jest nieprawidłowy! Spróbuj ponownie</p>
+            <a class="btn" href="{% url 'register' %}">Spróbuj podobnie</a>
+        </div>
+        {% endif %}
+    </section>
+
+{% endblock content %}

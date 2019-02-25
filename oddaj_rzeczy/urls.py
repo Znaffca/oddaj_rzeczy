@@ -19,7 +19,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from main.views import IndexView, LoginPage, AccountDetails, RegisterView, UserEdit, DonateFirst, \
-    DonateSecond, DonateThird, DonateFourth, DonateFifth, DonateSixth, DonateSummary, UserPackages, PackageDetails
+    DonateSecond, DonateThird, DonateFourth, DonateFifth, DonateSixth, DonateSummary, UserPackages, PackageDetails, \
+    ActivationView
 
 urlpatterns = [
     # admin panel
@@ -30,6 +31,8 @@ urlpatterns = [
     path('register/', RegisterView.as_view(), name="register"),
     path('login/', LoginPage.as_view(), name="login-page"),
     path('logout/', auth_views.LogoutView.as_view(), name="logout"),
+    re_path(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+            ActivationView.as_view(), name="activate"),
     # user account sites
     path('account/details/', AccountDetails.as_view(), name="account-details"),
     path('account/edit/', UserEdit.as_view(), name="profile-edit"),

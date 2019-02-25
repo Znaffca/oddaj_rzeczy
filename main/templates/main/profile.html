@@ -21,7 +21,11 @@
     <section class="stats">
       <div class="container container--85">
         <div class="stats--item">
+            {% if all_bags  %}
           <em>{{ all_bags }}</em>
+            {% else %}
+            <em>0</em>
+            {% endif %}
           <h3>Oddanych worków</h3>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius est beatae, quod accusamus illum tempora!</p>
         </div>

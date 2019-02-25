@@ -1,0 +1,16 @@
+{% extends 'main/__base__.html' %}
+{% load static %}
+{% block title %}Aktywacja konta{% endblock title %}
+{% block class %}{%endblock class%}
+{% block header %}{% endblock header %}
+{% block content %}
+{% load widget_tweaks %}
+<section class="login-page">
+    <h2>Twoje konto oczekuje na aktywację</h2>
+        <p class="italic">Na podany adres e-mail wysłaliśmy Ci wskazówki do aktywacji Twojego konta</p>
+        <p class="italic">Sprawdź swoją skrzynkę pocztową. Jeżeli nie otzymałeś żadnej wiadomości, upewnij się że wpisałeś poprawny adres
+        e-mail i spróbuj ponownie</p>
+
+    </section>
+
+{% endblock content %}
