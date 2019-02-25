@@ -113,3 +113,17 @@ class HelpPackage(models.Model):
 
     class Meta:
         verbose_name_plural = "Utworzone dary"
+
+
+# Delivered informations
+
+class DeliveredPackage(models.Model):
+    package = models.ForeignKey(HelpPackage, on_delete=models.CASCADE, verbose_name="Dar")
+    delivered = models.BooleanField(default=False, verbose_name="Dostarczono do fundacji")
+    date_delivered = models.DateTimeField(auto_now_add=True, verbose_name="Data dostarczenia")
+
+    def __str__(self):
+        return f'{self.date_delivered}'
+
+    class Meta:
+        verbose_name_plural = "Informacje o dostarczeniu do fundacji"

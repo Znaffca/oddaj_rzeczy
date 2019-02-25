@@ -34,7 +34,7 @@
             {% else %}
             <td><img src="{% static 'images/mark2.png' %}" alt="unmark" width="20" height="auto"></td>
             {% endif %}
-          <td><a href="{% url 'first-donate' %}" class="btn">Szczegóły</a></td>
+          <td><a href="{% url 'package-details' package.id %}" class="btn">Szczegóły</a></td>
         </tr>
         {% endfor %}
       </tbody>

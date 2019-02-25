@@ -8,7 +8,7 @@ from django.views import View
 from main.forms import LoginForm, AddUserForm, UserEditForm, ProfileForm, DonateFirstForm, DonateSecondForm, \
     DonateThirdSearch, DonateAddressAdd
 from main.models import UserProfile, Towns, HelpType, Institution, HelpPackage
-from django.db.models import Sum, Count
+from django.db.models import Sum
 
 
 # landing page
@@ -104,6 +104,18 @@ class UserPackages(LoginRequiredMixin, View):
     def get(self, request):
         packages = HelpPackage.objects.filter(user=request.user).order_by('-date_added')
         return render(request, 'main/user_packages.html', {"packages": packages})
+
+
+# Package Details
+
+class PackageDetails(LoginRequiredMixin, View):
+
+    def get(self, request, id):
+        package = HelpPackage.objects.get(pk=id)
+        return render(request, 'main/package_details.html', {"package": package})
+
+    def post(self, request):
+        pass
 
 
 # Donates Views:::

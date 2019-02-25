@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
-from main.models import UserProfile, Towns, Institution, HelpPackage, HelpType
+from main.models import UserProfile, Towns, Institution, HelpPackage, HelpType, DeliveredPackage
 
 admin.site.site_header = "Oddaj rzeczy - panel administracyjny aplikacji"
 admin.site.site_title = "Oddaj rzeczy"
@@ -75,3 +75,9 @@ class HelpPackageAdmin(admin.ModelAdmin):
             'fields': ('user',)
         }),
     )
+
+
+@admin.register(DeliveredPackage)
+class DeliveredPackageAdmin(admin.ModelAdmin):
+    list_display = ['package', 'delivered', 'date_delivered']
+    list_filter = ['delivered']

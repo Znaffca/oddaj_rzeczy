@@ -14,12 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from main.views import IndexView, LoginPage, AccountDetails, RegisterView, UserEdit, DonateFirst, \
-    DonateSecond, DonateThird, DonateFourth, DonateFifth, DonateSixth, DonateSummary, UserPackages
+    DonateSecond, DonateThird, DonateFourth, DonateFifth, DonateSixth, DonateSummary, UserPackages, PackageDetails
 
 urlpatterns = [
     path('admin/', admin.site.urls, name="admin-site"),
@@ -30,6 +30,7 @@ urlpatterns = [
     path('account/details/', AccountDetails.as_view(), name="account-details"),
     path('account/edit/', UserEdit.as_view(), name="profile-edit"),
     path('account/packages/', UserPackages.as_view(), name="user-packages"),
+    re_path(r'^account/packages/(?P<id>(\d)+)', PackageDetails.as_view(), name="package-details"),
     path('password_change/', auth_views.PasswordChangeView.as_view(), name="change-password"),
     path('password_change/done', auth_views.PasswordChangeDoneView.as_view(), name="password_change_done"),
     path('donates/form/1/', DonateFirst.as_view(), name="first-donate"),
