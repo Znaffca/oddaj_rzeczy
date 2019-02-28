@@ -1,4 +1,5 @@
 import json
+from django import forms
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
@@ -14,10 +15,9 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views import View
 from main.forms import LoginForm, AddUserForm, UserEditForm, ProfileForm, DonateFirstForm, DonateSecondForm, \
-    DonateThirdSearch, DonateAddressAdd, DeliveredForm
+    DonateThirdSearch, DonateAddressAdd, DeliveredForm, InstitutionSelectForm
 from main.models import UserProfile, Towns, HelpType, Institution, HelpPackage
-from django.db.models import Sum
-
+from django.db.models import Sum, Q
 
 # landing page
 from main.tokens import account_activation_token
@@ -252,11 +252,18 @@ class DonateThird(LoginRequiredMixin, View):
 class DonateFourth(LoginRequiredMixin, View):
 
     def get(self, request):
-        city_id = request.session['search']['city']
-        # help_list = request.session['search']['help']
-        # help_types = (HelpType.objects.get(pk=i) for i in help_list)
-        search_by_city = Institution.objects.filter(town=Towns.objects.get(pk=city_id))
-        return render(request, 'main/form_4.html', {'city_institution': search_by_city})
+        s = request.session['search']
+        city_id = s['city']
+        helps = s['help']
+        text = s['institution']
+        if text == "":
+            if len(helps) == 0:
+                search = Institution.objects.filter(town=Towns.objects.get(pk=city_id))
+            else:
+                search = Institution.objects.filter(Q(town=Towns.objects.get(pk=city_id)) & Q(help__in=helps))
+        else:
+            search = Institution.objects.filter(name__contains=text)
+        return render(request, 'main/form_4.html', {'city_institution': search})
 
     def post(self, request):
         i = request.POST.get('organization')

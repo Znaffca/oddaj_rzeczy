@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 # login form
 
-from main.models import UserProfile, HelpPackage, Towns, HelpType, DeliveredPackage
+from main.models import UserProfile, HelpPackage, Towns, HelpType, DeliveredPackage, Institution
 
 
 class LoginForm(forms.Form):
@@ -82,6 +82,14 @@ class DonateFirstForm(forms.ModelForm):
         model = HelpPackage
         fields = ('usable_clothes', 'useless_clothes', 'toys', 'books', 'others')
 
+    def clean(self):
+        values = []
+        for field in DonateFirstForm.Meta.fields:
+            values.append(self.cleaned_data[field])
+        if True not in values:
+            raise forms.ValidationError("Musisz wybrać przynajmniej jedno pole!")
+        return self.cleaned_data
+
 
 # Second Donate
 
@@ -95,10 +103,16 @@ class DonateSecondForm(forms.ModelForm):
 # Third Donate - Search Form
 
 class DonateThirdSearch(forms.Form):
-    city = forms.ModelChoiceField(queryset=Towns.objects.all(), required=False)
+    city = forms.ModelChoiceField(queryset=Towns.objects.all(), required=True)
     help = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple, queryset=HelpType.objects.all(),
-                                          required=True)
+                                          required=False)
     institution = forms.CharField(widget=forms.Textarea(attrs={"rows": '4'}), required=False)
+
+
+# Fourth Donate
+
+class InstitutionSelectForm(forms.Form):
+    institution = forms.MultipleChoiceField(widget=forms.RadioSelect)
 
 
 # Fifth Donate - Add addresess and additional informations

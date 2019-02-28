@@ -17,9 +17,11 @@
 
         <form action="" method="post">
             {% csrf_token %}
+
           <!-- STEP 1: class .active is switching steps -->
             <div data-step="1" class="active">
             <h3>Zaznacz co chcesz oddać:</h3>
+                {% include 'main/form_errors.html' %}
                 {% for field in form.visible_fields %}
             <div class="form-group form-group--checkbox">
               <label>
