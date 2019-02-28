@@ -19,7 +19,7 @@
               {% csrf_token %}
           <div data-step="5" class="active">
             <h3>Podaj adres oraz termin odbioru rzecz przez kuriera:</h3>
-
+              {% include 'main/form_errors.html' %}
             <div class="form-section form-section--columns">
               <div class="form-section--column">
                 <h4>Adres odbioru</h4>

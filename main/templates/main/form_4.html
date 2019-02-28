@@ -16,6 +16,7 @@
         <div class="form--steps-counter">Krok <span>4</span>/5</div>
 
           <form method="POST">
+              {% csrf_token %}
            <div data-step="4" class="active">
             <h3>Wybierz organizacje, której chcesz pomóc:</h3>
 

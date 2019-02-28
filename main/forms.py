@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-
+import datetime
 
 # login form
 
@@ -128,6 +128,13 @@ class DonateAddressAdd(forms.ModelForm):
             'time': forms.TimeInput(attrs={"type": "time", "name": "time"}),
             'comments': forms.Textarea(attrs={"rows": "5"}),
         }
+
+    def clean_date(self):
+        date = self.cleaned_data['date']
+        present = datetime.date.today()
+        if date <= present:
+            raise forms.ValidationError("Data odbioru nie może być wcześniejsza lub równa obecnej!")
+        return date
 
 
 class DeliveredForm(forms.ModelForm):
